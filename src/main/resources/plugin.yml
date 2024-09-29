@@ -1,0 +1,11 @@
+name: SweetWarehouse
+version: '${version}'
+main: top.mrxiaom.sweet.warehouse.SweetWarehouse
+api-version: 1.13
+depend: [ Vault ]
+softdepend: [ PlaceholderAPI ]
+authors: [ MrXiaoM ]
+commands:
+  warehouse:
+    description: awa
+    aliases: [ yc ]
