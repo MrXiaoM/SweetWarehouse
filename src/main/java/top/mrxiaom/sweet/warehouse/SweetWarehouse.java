@@ -3,6 +3,7 @@ package top.mrxiaom.sweet.warehouse;
 import org.jetbrains.annotations.NotNull;
 import top.mrxiaom.pluginbase.BukkitPlugin;
 import top.mrxiaom.pluginbase.EconomyHolder;
+import top.mrxiaom.sweet.warehouse.database.ItemsDatabase;
 
 public class SweetWarehouse extends BukkitPlugin {
     public static SweetWarehouse getInstance() {
@@ -19,16 +20,23 @@ public class SweetWarehouse extends BukkitPlugin {
         );
     }
 
+    private ItemsDatabase itemsDatabase;
     @NotNull
     public EconomyHolder getEconomy() {
         return options.economy();
     }
 
+    public ItemsDatabase getItemsDatabase() {
+        return itemsDatabase;
+    }
+
+    public boolean isSQLite() {
+        return options.database().isSQLite();
+    }
+
     @Override
     protected void beforeEnable() {
-        options.registerDatabase(
-                // TODO: 在这里添加数据库
-        );
+        options.registerDatabase(itemsDatabase = new ItemsDatabase(this));
     }
 
     @Override
