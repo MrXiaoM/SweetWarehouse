@@ -9,6 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import top.mrxiaom.pluginbase.database.IDatabase;
 import top.mrxiaom.pluginbase.utils.Bytes;
 import top.mrxiaom.sweet.warehouse.SweetWarehouse;
@@ -33,6 +35,33 @@ public class ItemsDatabase extends AbstractPluginHolder implements IDatabase, Li
         public Item(String item, int amount) {
             this.item = item;
             this.amount = amount;
+        }
+
+        public int getAmountFromPlayerInventory(Player player) {
+            int size = 0;
+            for (ItemStack content : player.getInventory().getContents()) {
+                if (content == null) continue;
+                if (isMatch(content)) {
+                    size += content.getAmount();
+                }
+            }
+            return size;
+        }
+
+        public boolean isMatch(ItemStack item) {
+            // TODO: 判定物品是否符合这个分类
+            return false;
+        }
+
+        public boolean isPlayerUnlocked(Player player) {
+            // TODO: 判定玩家是否已解锁这个格子
+            return false;
+        }
+
+        @Nullable
+        public ItemStack generateItem() {
+            // TODO: 根据 item 字符串生成物品
+            return null;
         }
     }
     private String TABLE_NAME;
@@ -111,6 +140,10 @@ public class ItemsDatabase extends AbstractPluginHolder implements IDatabase, Li
         } catch (SQLException e) {
             warn(e);
         }
+    }
+
+    public List<Item> getItems(Player player) {
+        return getItems(player.getName());
     }
 
     public List<Item> getItems(String player) {

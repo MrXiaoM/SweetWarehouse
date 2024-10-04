@@ -14,7 +14,7 @@ public class SweetWarehouse extends BukkitPlugin {
         super(options()
                 .bungee(true)
                 .database(true)
-                .reconnectDatabaseWhenReloadConfig(true)
+                .reconnectDatabaseWhenReloadConfig(false)
                 .vaultEconomy(true)
                 .scanIgnore("top.mrxiaom.sweet.warehouse.libs")
         );
@@ -42,5 +42,10 @@ public class SweetWarehouse extends BukkitPlugin {
     @Override
     protected void afterEnable() {
         getLogger().info(getDescription().getName() + " 加载完毕");
+    }
+
+    public void reloadDatabase() {
+        options.database().reloadConfig();
+        options.database().reconnect();
     }
 }
