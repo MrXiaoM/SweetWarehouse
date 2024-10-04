@@ -3,7 +3,7 @@ version: '${version}'
 main: top.mrxiaom.sweet.warehouse.SweetWarehouse
 api-version: 1.13
 depend: [ Vault ]
-softdepend: [ PlaceholderAPI ]
+softdepend: [ PlaceholderAPI, MythicMobs ]
 authors: [ MrXiaoM ]
 commands:
   warehouse:

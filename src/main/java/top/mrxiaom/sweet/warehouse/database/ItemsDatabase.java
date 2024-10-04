@@ -3,6 +3,7 @@ package top.mrxiaom.sweet.warehouse.database;
 import com.google.common.collect.Lists;
 import com.google.common.io.ByteArrayDataOutput;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import top.mrxiaom.pluginbase.database.IDatabase;
 import top.mrxiaom.pluginbase.utils.Bytes;
+import top.mrxiaom.pluginbase.utils.Util;
 import top.mrxiaom.sweet.warehouse.SweetWarehouse;
 import top.mrxiaom.sweet.warehouse.func.AbstractPluginHolder;
 
@@ -28,7 +30,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ItemsDatabase extends AbstractPluginHolder implements IDatabase, Listener {
-    public static class Item {
+    public class Item {
         public final String item;
         public final int amount;
 
@@ -49,19 +51,24 @@ public class ItemsDatabase extends AbstractPluginHolder implements IDatabase, Li
         }
 
         public boolean isMatch(ItemStack item) {
-            // TODO: 判定物品是否符合这个分类
-            return false;
+            if (this.item.startsWith("mythic.")) {
+                String mythicId = this.item.substring(7);
+                return mythicId.equals(plugin.getMythic().getMythicID(item));
+            }
+            return item.getType().name().equalsIgnoreCase(this.item);
         }
 
         public boolean isPlayerUnlocked(Player player) {
-            // TODO: 判定玩家是否已解锁这个格子
-            return false;
+            return player.hasPermission("sweet.warehouse.unlock." + item);
         }
 
         @Nullable
         public ItemStack generateItem() {
-            // TODO: 根据 item 字符串生成物品
-            return null;
+            if (item.startsWith("mythic.")) {
+                return plugin.getMythic().getItem(item.substring(7));
+            }
+            Material material = Util.valueOr(Material.class, item, null);
+            return material == null ? null : new ItemStack(material);
         }
     }
     private String TABLE_NAME;
@@ -70,6 +77,12 @@ public class ItemsDatabase extends AbstractPluginHolder implements IDatabase, Li
         super(plugin, true);
         registerEvents();
         registerBungee();
+    }
+
+    public String toString(ItemStack item) {
+        String mythic = plugin.getMythic().getMythicID(item);
+        if (mythic != null) return "mythic." + mythic;
+        return item.getType().name();
     }
 
     public void broadcastRemoveCache(String player) {

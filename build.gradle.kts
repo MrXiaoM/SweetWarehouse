@@ -17,6 +17,7 @@ repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://jitpack.io")
     maven("https://repo.rosewooddev.io/repository/public/")
+    maven("https://mvn.lumine.io/repository/maven/")
     maven("https://oss.sonatype.org/content/groups/public/")
 }
 
@@ -25,6 +26,10 @@ dependencies {
     
     compileOnly("net.milkbowl.vault:VaultAPI:1.7")
     compileOnly("me.clip:placeholderapi:2.11.6")
+
+    compileOnly("io.lumine:Mythic-Dist:4.13.0")
+    compileOnly("io.lumine:Mythic:5.6.2")
+    compileOnly("io.lumine:LumineUtils:1.20-SNAPSHOT")
 
     implementation("com.zaxxer:HikariCP:4.0.3") { isTransitive = false }
     implementation("org.jetbrains:annotations:21.0.0")
