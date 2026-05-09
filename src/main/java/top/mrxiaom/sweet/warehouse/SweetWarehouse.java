@@ -4,7 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import top.mrxiaom.pluginbase.BukkitPlugin;
-import top.mrxiaom.pluginbase.EconomyHolder;
+import top.mrxiaom.pluginbase.economy.EnumEconomy;
+import top.mrxiaom.pluginbase.economy.IEconomy;
 import top.mrxiaom.sweet.warehouse.database.ItemsDatabase;
 import top.mrxiaom.sweet.warehouse.mythic.IMythic;
 import top.mrxiaom.sweet.warehouse.mythic.Mythic4;
@@ -21,7 +22,7 @@ public class SweetWarehouse extends BukkitPlugin {
                 .bungee(true)
                 .database(true)
                 .reconnectDatabaseWhenReloadConfig(false)
-                .vaultEconomy(true)
+                .economy(EnumEconomy.VAULT)
                 .scanIgnore("top.mrxiaom.sweet.warehouse.libs")
         );
     }
@@ -29,7 +30,7 @@ public class SweetWarehouse extends BukkitPlugin {
     private IMythic mythic;
     private ItemsDatabase itemsDatabase;
     @NotNull
-    public EconomyHolder getEconomy() {
+    public IEconomy getEconomy() {
         return options.economy();
     }
 

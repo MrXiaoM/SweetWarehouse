@@ -6,6 +6,7 @@ import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.items.MythicItem;
 import io.lumine.xikage.mythicmobs.util.jnbt.CompoundTag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 
 public class Mythic4 implements IMythic {
@@ -14,8 +15,14 @@ public class Mythic4 implements IMythic {
     @Override
     @Nullable
     public String getMythicID(ItemStack item) {
-        CompoundTag tag = inst.getVolatileCodeHandler().getItemHandler().getNBTData(item);
-        return tag.containsKey("MYTHIC_TYPE") ? tag.getString("MYTHIC_TYPE") : null;
+        if (item == null || item.getType().equals(Material.AIR) || item.getAmount() <= 0) {
+            return null;
+        }
+        CompoundTag data = inst.getVolatileCodeHandler().getItemHandler().getNBTData(item);
+        if (data != null && data.containsKey("MYTHIC_TYPE")) {
+            return data.getString("MYTHIC_TYPE");
+        }
+        return null;
     }
 
     @Override
